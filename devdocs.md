@@ -1,8 +1,9 @@
 # Developer Documentation for Agile Projects
 
 1. Principles
-2. 1Techniques
-3. Categories of documentation
+2. Techniques - the tools that are available
+3. Tools/Examples of Techniques
+4. What shall we document? And how?
 
 ## Why this talk?
 
@@ -51,13 +52,13 @@ Just to be clear, we are talking about documentation that is internal to a produ
 
 * Put simply, no. We need to maintain a sufficient product inventory of formal and informal assets (code, data files, images) that are required for the continued production and maintenance of the product stream, which is ultimately a creative, human process.
 
-* So function of the product inventory is not merely to mechanically build the product over and over again but also to tell the story of what, how and why the assets of the inventory are the way the are and to record the operating procedures. 
+* So the function of the product inventory is not merely to mechanically build the product over and over again but also to tell the story of what, how and why the assets of the inventory are the way the are and to record the operating procedures. 
 
 * This is necessary to get new developers engaged and up to speed and, as we all know, to jog our own memories after a few months have past.
 
 ## Principle: Value/Cost Tradeoff
 
-* This isn't a blank cheque for writing any old documentation. Everything we add to the product inventory needs to be kept up to date, which means its value has to be proportionate to the maintenance cost.
+* There is no "blank cheque" for writing any old documentation. Everything we add to the product inventory needs to be kept up to date, which means its value has to be proportionate to the maintenance cost.
 
 * So we are on the lookout for tools and techniques that reduce the cost of creating documents and, most importantly, keeping them up to date.
 
@@ -90,10 +91,19 @@ Just to be clear, we are talking about documentation that is internal to a produ
   - Some items are version independent. 
   - But version dependent info, stored outside the repo, with manual input has extra costs, which degrades the value of that information.
 
+## Principle: Content and Level of Detail JIT (not AOT)
 
-## Principle: Self-Describing Assets
+* How does JIT documentation work? 
 
-* One of the ways to reduce the burden of managing documentation is to interweave the asset content with its description ("meta-content") and synthesize the documentation from the asset. This can be done with a tool or custom script.
+* By breaking the monolith up into little pieces that are incrementally created.
+
+* By allowing documentation to start life as rough statements and become refined as time goes on.
+
+## Technique: Use Self-Describing Assets
+
+* One of the ways to reduce the burden of managing documentation is to interweave the asset content with its description ("meta-content") into a single source object.
+
+* We can either synthesize the documentation from the source or even treat it as a replacement for separate document.
 
 * This reduces work in several ways. 
   - It removes the overhead of swapping between a source object and its documentation object.
@@ -104,7 +114,17 @@ Just to be clear, we are talking about documentation that is internal to a produ
   - Indexes and table-of-contents can be generated automatically.
   - The descriptive content can be utilised by the IDE to provide "Intellisense"
 
-## Principle: Domain-Based Naming (Variables, Methods, Functions, Classes)
+### Example: Autodocs
+
+* A key technique for keeping costs low is automation.
+
+* Good examples of this are Javadocs and Doxygen. These tools generate detailed, structured API documentation in HTML (etc) from _annotated_ source code. 
+
+### Example: Database Documentation
+
+* Another good example is Database Notetaker, which generates HTML (etc) from the schema of the database, combining it with annotations that are kept in a separate XML file.
+
+## Technique: Use Domain-Based Naming (Variables, Methods, Functions, Classes)
 
 * Many of our source assets are quite mathematical in nature and heavily use symbolic names internally.
 
@@ -116,48 +136,53 @@ Just to be clear, we are talking about documentation that is internal to a produ
 
 * When used well, this technique can often make other annotations redundant - reducing work still further.
 
-## Technique: Autodocs
 
-* A key technique for keeping costs low is automation.
 
-* Good examples of this are Javadocs and Doxygen. These tools generate detailed, structured API documentation in HTML (etc) from _annotated_ source code. 
+## Technique: Use Formal Notations that can be used for Checking Correctness
 
-* Another good example is Database Notetaker, which generates HTML (etc) from the schema of the database, combining it with annotations that are kept in a separate XML file.
+* Rather than just describe structure informally in prose, we prefer formal notations that can be utilized as part of CI to validate the build.
 
-## Technique: Formal Grammars
+* These are often referred to as using 'executable' specifications, which is a misnomer but well-established. (Strictly speaking they can be automatically validated rather than executed.)
 
-* A variation on autodocs is to use formal descriptions, typically in XML, JSON or YAML, that can be used to automate consistency checks _and_ to generate human readable documentation.
+* We integrate the checking into the product CI, so that we get early warning that they are out of date (reduces cost, increases value) or that the working prototype has a problem (increases value).
+
+### Example: Acceptance Criteria in Gherkin
+
+* One of the more eye-popping success of the Agile tools revolution is the use of the Gherkin syntax to write acceptance criteria, which can be translated into CI tests that constantly validate the build.
+
+* High cost, high value - Although this involves a good deal of up-front work, it generates a body of very effective user-level tests that can be integrated into CI. Because failures are quickly detected they are much easier to keep up to date and also protect against inadvertant violation.
+
+## Technique: Formal Notations that can be used to Generate Diagrams (etc)
+
+* Another use of formal notations is to produce visual documentation e.g. dependency diagrams, flowcharts etc.
+
+* These are typically easy-to-maintain plain-text representations that tools can turn into very readable documents or diagrams that would otherwise be expensive to keep up to date.
+
+### Example: Swagger, OpenAPI -> Docs
 
 * A popular and recent tool is Swagger. This describes a REST API in a OpenAPI (JSON) document.
 
+### Example: Railroad, EBNF -> Railroad Diagrams
+
 * Another example of reducing the cost of maintenance is the automatic production of railroad diagrams from a EBNF grammar. Tools such as https://pypi.org/project/railroad/ take the easy-to-edit EBNF format and generate the hard-to-edit, visual format of railroad diagram images.
 
-## Technique: Automated Image Generation
-
-* In general, plain text descriptions are easier for programmers to maintain than images. So it can be effective to generate clean visuals from a plain-text "DSL" - sometimes referred to as diagrams as code.
+### Example: GraphViz, dot -> Network Diagram
 
 * For example, generating a network diagram from a plain text description is made easy with graphviz. 
 
-* And these DSLs can be useful as intermediate targets for other tools. For example, pydeps builds on graphviz is pydeps to show dependencies between python modules.
+### Example: Other tools
+
+* And these plain-text DSLs can also be useful as intermediate targets for other tools. For example, pydeps builds on graphviz to show dependencies between python modules.
 
 * Other similar plain-text tools are blockdiag, Syntrax, erd, state-machine-cat, PlantUML. And there is a wealth of tools that generate output using javascript e.g. Mermaid. 
 
 * Note the pitfall of using lots of tools for your project and finding that keeping a large number of tools working is a maintenance headache.
 
-## Technique: 'Executable' Acceptance Criteria
-
-* One of the more eye-popping success of the Agile tools revolution is the use of the Gherkin syntax to write acceptance criteria, which are "executable".
-
-* In this context, "executable" means that the acceptance criteria can be translated into a runnable test (and not the more natural meaning of implementing the behaviour!)
-
-* Although this involves a good deal of up-front work, it generates a body of very effective user-level tests that can be integrated into CI. Because failures are quickly detected they are much easier to keep up to date and also protect against inadvertant violation.
+## Category: Build & Production Processes
 
 ## Category: Requirements
 
-
-
-
 ## Category: Design Documents
 
-## Category: Build & Production Processes
+## Category: Case Studies
 

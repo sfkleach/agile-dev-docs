@@ -18,7 +18,7 @@
   - "Document as late as possible" (how late? actually late?)
   - "Use executable specifications" (why?!)
 
-* By contrast, this talks describes a straightforward and practical approach to documenting Agile projects, which is driven by adding value rather than eliminating waste.
+* By contrast, this talks details a straightforward and practical approach to documenting Agile projects, which is based on adding value rather than eliminating waste.
 
 ## DevDocs are not User Docs
 
@@ -91,7 +91,7 @@ Just to be clear, we are talking about documentation that is internal to a produ
   - Some items are version independent. 
   - But version dependent info, stored outside the repo, with manual input has extra costs, which degrades the value of that information.
 
-## Principle: Content and Level of Detail JIT (not AOT)
+## Principle: JIT Content and Level of Detail (vs AOT)
 
 * How does JIT documentation work? 
 
@@ -178,11 +178,76 @@ Just to be clear, we are talking about documentation that is internal to a produ
 
 * Note the pitfall of using lots of tools for your project and finding that keeping a large number of tools working is a maintenance headache.
 
+## Technique: Modular Documentation
+
+* In "Big Up Front" methods, we conceive of documentation as a finished product that is not only fully detailed but has full coverage. The classic "functional specification" would 'ideally' cover every aspect of the planned system in detail.
+
+* To fit in with Agile principles, we flip that around by using modular documentation that allows us to:
+  - Partition the document into "pages" or "cards"
+  - At ony one time only provide partial coverage, only providing "pages" that have been part of the focus.
+  - Have variable the levels of details on different "pages"
+  - Continually revise pages as the project progresses.
+  - Not enough tags
+  - Swimlane support
+  - Too few views
+
+### Example: Generic Card-Based Systems - Trello, Restyaboard, Wekan
+
+* TODO - we need to explain the disadvantages of them
+  - Poor structured search (querying)
+  - No integrated wiki/repo/work-item links
+  - Trello has awkward limits on free version
+
+
+### Example: Wikis
+
+* TODO
+
+
+### Example: Jira, Azure DevOps, GitHub, Fossil
+* TODO
+
+### Example: Other Work-Item Based Systems
+
+* Too numerous to detail ...
+
+* Free (Self-Hosted): Trac, Redmine, Taiga, Gogs, Open Project, Bugzilla, NearBeach
+
+* Paid/Freemium: GitLab, Assembla, Basecamp, Pivotal Tracker, Taiga, Monday.com 
+
+## Technique: Lightweight Markup Languages
+
+* Companies emphasise using corporate templates using popular but complex tools such as Microsoft Word that carry the corporate brand. Such branding is often freighted with multiple serious problems e.g.
+  - verbose tables that are almost useless substitutes for change tracking
+  - verbose tables for references to other documents
+  - poorly controlled table of contents
+  - poor stylesheet construction with inadequate support for section hierarchy/numbering
+  - poor choice of fonts for on-screen reading (chosen for printed output)
+  - low contrast colours
+  - tiring white background
+  - no consideration given to accessibility
+
+* More problematically, Microsoft Word provides friendly but, for devs used to github or equivalent, comparatively puny support for change management and review.
+
+* Since devdocs are entirely internal and ideally co-versioned, this has led to the adoption of plain-text markup languages that provide minimal styling, excellent syntax highlighting. As we have repeatedly seen, human-friendly plain-text files are managed well by git.
+  - embedded in the repo for co-versioning and inclusion in CI
+  - minimal styling means less time wasted on getting styling and layout right
+  - direct support for hyperlinks
+  - plain text editor is adequate tooling
+  - plenty of FOSS support
+
+### Example: Markdown
+
+### Example: AsciiDoctor
+
+### Example: ReST
+
+
 ## Category: Build & Production Processes
 
-## Category: Requirements
+## Category: Intentions = Requirements and Specifications
 
-## Category: Design Documents
+## Category: Design = Navigating the Gap between Intention & Implementation
 
 ## Category: Case Studies
 
